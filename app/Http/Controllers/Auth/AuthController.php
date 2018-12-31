@@ -51,7 +51,7 @@ class AuthController extends Controller
                 Session::put('user',$user);
             }
 
-            dd('return view dashboard : Welcomeback ! ".$user->User_ID." ');
+            return redirect()->route('system.getSignin')->with(['flash_type'=>'success','flash_message'=>'Login success!']);
         }
     }
 

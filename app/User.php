@@ -12,7 +12,7 @@ class User extends Authenticatable
 
     protected $table = "User";
     
-    protected $fillable = ['User_ID','User_Name',  'User_Email', 'User_EmailActive', 'User_RegisteredDatetime', 'User_Level', 'User_Password', 'User_Status', 'User_Token', 'User_OTP'];
+    protected $fillable = ['User_ID','User_Name','User_Email', 'User_Avatar', 'User_EmailActive', 'User_RegisteredDatetime', 'User_Level', 'User_Password', 'User_Status', 'User_Token', 'User_OTP'];
 
     public $timestamps = false;
 	
@@ -53,6 +53,50 @@ class User extends Authenticatable
                 case 'User_Email' : $result = DB::table('User')->Where('User_Email',$input)->first(); break;
             }
         return $result;
+    }
+
+    public static function GetUserChildren($user) {
+        // 1F Children
+        $result = User::select('User_ID', 'User_Name', 'User_Email', 'User_Avatar', 'User_RegisteredDatetime', 'User_Status', DB::raw("(CHAR_LENGTH(User_Childrens)-CHAR_LENGTH(REPLACE(User_Childrens, ',', '')))-" . substr_count($user->User_Childrens, ',') . " AS f"))
+        ->where('User_Parent',$user->User_ID)
+        ->where('User_ID','<>',$user->User_ID)
+        ->where('User_Childrens','<>',$user->User_Childrens)
+        ->where('User_Status',1)
+        ->orderBy('User_RegisteredDatetime','DESC')
+        ->paginate(10);
+        return $result;
+
+        //Multi Children
+        // $result = User::select('User_ID', 'User_Name', 'User_Email', 'User_Avatar', 'User_RegisteredDatetime', 'User_Status', DB::raw("(CHAR_LENGTH(User_Childrens)-CHAR_LENGTH(REPLACE(User_Childrens, ',', '')))-" . substr_count($user->User_Childrens, ',') . " AS f"))
+        // ->whereRaw('User_Childrens LIKE "'.$user->User_Childrens.'%"')
+        // ->where('User_ID','<>',$user->User_ID)
+        // ->where('User_Childrens','<>',$user->User_Childrens)
+        // ->where('User_Status',1)
+        // ->orderBy('User_RegisteredDatetime','DESC')
+        // ->paginate(20);
+        // return $result;
+    }
+
+    public static function GetCountUserChildren($user) {
+        // 1F Children
+        $result = User::select('User_ID', 'User_Name', 'User_Email', 'User_Avatar', 'User_RegisteredDatetime', 'User_Status', DB::raw("(CHAR_LENGTH(User_Childrens)-CHAR_LENGTH(REPLACE(User_Childrens, ',', '')))-" . substr_count($user->User_Childrens, ',') . " AS f"))
+        ->where('User_Parent',$user->User_ID)
+        ->where('User_ID','<>',$user->User_ID)
+        ->where('User_Childrens','<>',$user->User_Childrens)
+        ->where('User_Status',1)
+        ->orderBy('User_RegisteredDatetime','DESC')
+        ->get();
+        return count($result);
+
+        //Multi Children
+        // $result = User::select('User_ID', 'User_Name', 'User_Email', 'User_Avatar', 'User_RegisteredDatetime', 'User_Status', DB::raw("(CHAR_LENGTH(User_Childrens)-CHAR_LENGTH(REPLACE(User_Childrens, ',', '')))-" . substr_count($user->User_Childrens, ',') . " AS f"))
+        // ->whereRaw('User_Childrens LIKE "'.$user->User_Childrens.'%"')
+        // ->where('User_ID','<>',$user->User_ID)
+        // ->where('User_Childrens','<>',$user->User_Childrens)
+        // ->where('User_Status',1)
+        // ->orderBy('User_RegisteredDatetime','DESC')
+        // ->get();
+        // return count($result);
     }
 
 }

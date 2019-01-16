@@ -51,12 +51,23 @@ class AuthController extends Controller
                 Session::put('user',$user);
             }
 
-            return redirect()->route('system.getSignin')->with(['flash_type'=>'success','flash_message'=>'Login success!']);
+            return redirect()->route('system.getDashboard')->with(['flash_type'=>'success','flash_message'=>'Login success!']);
         }
     }
 
-    public function getSignup() {
-        return view('system.auth.signup');
+    public function getSignout() {
+    if (Session::has('user')){
+        Session::forget('user');
+    }
+        return redirect()->route('system.getSignin')->with(['flash_type'=>'success','flash_message'=>'Logout success!']);
+    }
+
+    public function getSignup(Request $request) {
+        $User_Parent = '';
+        if ($request->input('ref')){
+            $User_Parent = $request->input('ref');
+        }
+        return view('system.auth.signup',compact('User_Parent'));
     }
 
     public function postSignup(Request $request) {
@@ -80,12 +91,28 @@ class AuthController extends Controller
             ]
         );
 
+        $User_Parent = 999999;
+        if ($request->input('ref')){
+            $User_Parent = $request->input('ref');
+        }
+
+        //Thông tin người giới thiệu
+        $infoREF = User::GetUser($User_Parent);
+        if (!$infoREF) {
+            return redirect()->route('system.getSignup')->with(['flash_type'=>'error', 'flash_message'=>'Reffer does not exsist']);
+        }
+
+        $User_ID = User::Random_User_ID();
+
         $input = array(
-            'User_ID' => User::Random_User_ID(),
+            'User_ID' => $User_ID,
             'User_Name' => $request->input('register-username'),
             'User_Email' => $request->input('register-email'),
             'User_EmailActive' => 0,
+            'User_Avatar' => '',
             'User_RegisteredDatetime' => date("Y-m-d h:i:s"),
+            'User_Parent' => $infoREF->User_ID,
+            'User_Childrens' => $infoREF->User_Childrens.','.$User_ID,
             'User_Level' => 0,
             'User_Password' => '',
             'User_Status'   => 1,

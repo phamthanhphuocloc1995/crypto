@@ -62,7 +62,7 @@
                 <!-- END Register Title -->
 
                 <!-- Register Form -->
-                <form action="{{ route('system.postSignup') }}" method="post" id="form-register" class="form-horizontal">
+                <form action="{{ route('system.postSignup') }}{{ ($User_Parent) ? '?ref='.$User_Parent : '' }}" method="post" id="form-register" class="form-horizontal">
                 {{ csrf_field() }}
                     <div class="form-group">
                         <div class="col-xs-12">

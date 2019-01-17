@@ -35,21 +35,6 @@ Memberlist
                 <div class="row gutter30">
                     <div class="block">
                         <div class="block-title"><h2>Member List</h2></div>
-                        <!-- Search -->
-                        <div class="table-reponsive">
-                        <table id="general-table" class="table table-bordered">
-                        <form action="">
-                        <tr>
-                        <td style="width:10%"><input type="number" name="userid" placeholder="User ID" class="form-control"></td>
-                        <td style="width:15%"><input type="text" name="username" placeholder="User Name" class="form-control"></td>
-                        <td style="width:23%"><input type="email" name="useremail" placeholder="User Email" class="form-control"></td>
-                        <td><input type="submit" value="Search" class="btn btn-primary" style="width:20%"> <input type="reset" value="Cancel" class="btn btn-primary" style="width:20%"></td>
-                        <!-- <td></td> -->
-                        </tr>
-                        </form>
-                        </table>
-                        </div>
-                        <!-- END Search -->
                         <!-- List -->
                         <div class="table-responsive">
                             <table id="general-table" class="table table-bordered">
@@ -80,22 +65,17 @@ Memberlist
                                     <tr>
                                         <td colspan="6">
                                             <!-- <div class="btn-group btn-group-sm pull-right">
-                                                <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="" data-original-title="Settings"><i class="fa fa-cog"></i></a>
                                                 <div class="btn-group btn-group-sm dropup">
                                                     <a href="javascript:void(0)" class="btn btn-default pull-right dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                                                     <ul class="dropdown-menu dropdown-menu-right">
-                                                        <li><a href="javascript:void(0)"><i class="fa fa-print"></i> Print</a></li>
-                                                        <li class="divider"></li>
                                                         <li class="dropdown-header"><i class="fa fa-share"></i> Export Excel As</li>
-                                                        <li><a href="javascript:void(0)">.pdf</a></li>
-                                                        <li><a href="javascript:void(0)">.cvs</a></li>
+                                                        <li><a href="javascript:void(0)">Memberlist.xls</a></li>
+                                                        <li><a href="javascript:void(0)">Memberlist.xlsx</a></li>
                                                     </ul>
                                                 </div>
                                             </div> -->
                                             <div class="btn-group btn-group-sm">
                                                 {{ $listmember->links() }}
-                                                <!-- <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="" data-original-title="Edit Selected"><i class="fa fa-pencil"></i></a>
-                                                <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="" data-original-title="Delete Selected"><i class="fa fa-times"></i></a> -->
                                             </div>
                                         </td>
                                     </tr>
@@ -113,4 +93,20 @@ Memberlist
 @endsection
 
 @section('script')
+<script>
+            $(function () {
+                /* Initialize Bootstrap Datatables Integration */
+                webApp.datatables();
+
+                /* Initialize Datatables */
+                $('#general-table').dataTable({
+                    columnDefs: [{orderable: false, targets: [4]}],
+                    pageLength: 15,
+                    lengthMenu: [[15, 30, 50, -1], [15, 30, 50, "All"]]
+                });
+
+                /* Add placeholder attribute to the search form */
+                $('.dataTables_filter input').attr('placeholder', 'Search');
+            });
+</script>
 @endsection

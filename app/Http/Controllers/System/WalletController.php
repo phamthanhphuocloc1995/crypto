@@ -15,11 +15,14 @@ use App\User;
 class WalletController extends Controller
 {
     public function coinbase(){
-        $apiKey = 'CuFaVz2CMb5BPbzZ';
-        $apiSecret = 'NWJ5nh9PEyAKypYHuFkDPan7VFlGVaiw';
+        //v2
+        // $apiKey = 'CuFaVz2CMb5BPbzZ';
+        // $apiSecret = 'NWJ5nh9PEyAKypYHuFkDPan7VFlGVaiw';
 
-        // $apiKey = 'nin8elvZ7nMJdHCI';
-        // $apiSecret = '5BzfCqrjtWz2cr1IqU1VqTG5ZMhEC0jW';
+        //v1
+        // $apiKey = '37KDOKJeRuVwKwhM';
+        // $apiSecret = 'w6H5nYFn9QimZ1vbbVNowhErctmgQCMh';
+        
 
         $configuration = Configuration::apiKey($apiKey, $apiSecret);
         $client = Client::create($configuration);
@@ -38,5 +41,9 @@ class WalletController extends Controller
         // $btcAddress = $info->getaddress();
         // dd($btcAddress);
         return view('system.wallet.deposit');
+    }
+
+    public function getWithdraw() {
+        return view('system.wallet.withdraw');
     }
 }

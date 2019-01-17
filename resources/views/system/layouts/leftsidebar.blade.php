@@ -46,7 +46,7 @@
                             <a href="{{ route('system.getDeposit') }}"><i class="fa fa-refresh"></i>Exchange ETH - $</a>
                         </li>
                         <li>
-                            <a href="{{ route('system.getWithdraw') }}"><i class="fa fa-reply"></i>Withdraw</a>
+                            <a href="{{ route('system.getWithdraw') }}" class="{{ (Route::current()->getName()=='system.getWithdraw' ? 'active' : '') }}"><i class="fa fa-reply"></i>Withdraw</a>
                         </li>
                         <!-- End Members left-->
                     </ul>

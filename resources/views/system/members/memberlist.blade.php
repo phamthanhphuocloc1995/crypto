@@ -35,7 +35,21 @@ Memberlist
                 <div class="row gutter30">
                     <div class="block">
                         <div class="block-title"><h2>Member List</h2></div>
-
+                        <!-- Search -->
+                        <div class="table-reponsive">
+                        <table id="general-table" class="table table-bordered">
+                        <form action="">
+                        <tr>
+                        <td style="width:10%"><input type="number" name="userid" placeholder="User ID" class="form-control"></td>
+                        <td style="width:15%"><input type="text" name="username" placeholder="User Name" class="form-control"></td>
+                        <td style="width:23%"><input type="email" name="useremail" placeholder="User Email" class="form-control"></td>
+                        <td><input type="submit" value="Search" class="btn btn-primary" style="width:20%"> <input type="reset" value="Cancel" class="btn btn-primary" style="width:20%"></td>
+                        <!-- <td></td> -->
+                        </tr>
+                        </form>
+                        </table>
+                        </div>
+                        <!-- END Search -->
                         <!-- List -->
                         <div class="table-responsive">
                             <table id="general-table" class="table table-bordered">

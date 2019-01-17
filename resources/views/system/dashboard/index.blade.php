@@ -39,7 +39,7 @@ Dashboard
                                 <div class="block-title text-center"><h4>Lucky Point Price</h4></div>
                                 <h1 class="animation-pullDown">
                                 <a href="javascript:void(0)" style="text-decoration:none">
-                                <strong>{{ number_format(App\Price::getLuckyPrice(),1) }}$ = {{ number_format(1) }} Point</strong>
+                                <strong>{{ number_format(App\Price::getLuckyPrice(),1) }} $ = {{ number_format(1) }} Point</strong>
                                 </a>
                                 </h1>
                             </div>
@@ -62,7 +62,7 @@ Dashboard
                         <div class="col-sm-3">
                             <div class="block">
                                 <div class="block-title text-center"><h4>Total Referral Member</h4></div>
-                                <a href="{{ route('system.getMemberlist') }}"><h1 class="text-center"><strong>Member: {{ number_format(App\User::GetCountUserChildren(Session('user'))) }}</strong></h1></a>
+                                <a href="{{ route('system.getMemberlist') }}" style="text-decoration: none"><h1 class="text-center"><strong>{{ number_format(App\User::GetCountUserChildren(Session('user'))) }}</strong></h1></a>
                             </div>
                         </div>
                     </div>

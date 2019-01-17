@@ -38,14 +38,14 @@
                                             <div class="col-xs-6">
                                                 <a href="page_special_timeline.html" class="header-link">
                                                     <h1 class="animation-pullDown">
-                                                        <strong>{{ number_format(0) }}</strong><br><small>Lucky Point</small>
+                                                        <strong>{{ number_format(0) }}</strong><br><small>$</small>
                                                     </h1>
                                                 </a>
                                             </div>
                                             <div class="col-xs-6">
                                                 <a href="page_special_message_center.html" class="header-link">
                                                     <h1 class="animation-pullDown">
-                                                        <strong>{{ number_format(10000) }}</strong><br><small>Lucky Point Demo</small>
+                                                        <strong>{{ number_format(0) }}</strong><br><small>Lucky Point</small>
                                                     </h1>
                                                 </a>
                                             </div>

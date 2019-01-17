@@ -19,7 +19,7 @@
                             <h2 class="sidebar-header">Welcome</h2>
                         </li>
                         <li>
-                            <a href="{{ route('system.getDashboard') }}" class=" active"><i class="fa fa-tachometer"></i>Dashboard</a>
+                            <a href="{{ route('system.getDashboard') }}" class="{{ (Route::current()->getName()=='system.getDashboard' ? 'active' : '') }}"><i class="fa fa-tachometer"></i>Dashboard</a>
                         </li>
                         <!-- End Welcome left-->
 
@@ -28,7 +28,7 @@
                             <h2 class="sidebar-header">Members</h2>
                         </li>
                         <li>
-                            <a href="{{ route('system.getMemberlist') }}"><i class="fa fa-users"></i>Member List</a>
+                            <a href="{{ route('system.getMemberlist') }}" class="{{ (Route::current()->getName()=='system.getMemberlist' ? 'active' : '') }}"><i class="fa fa-users"></i>Member List</a>
                         </li>
                         <!-- <li>
                             <a href="{{ route('system.getMembertree') }}"><i class="fa fa-tree"></i>Member Tree</a>
@@ -37,7 +37,13 @@
                             <h2 class="sidebar-header">Wallet</h2>
                         </li>
                         <li>
-                            <a href="{{ route('system.getDeposit') }}"><i class="fa fa-share"></i>Deposit</a>
+                            <a href="{{ route('system.getDeposit') }}" class="{{ (Route::current()->getName()=='system.getDeposit' ? 'active' : '') }}"><i class="fa fa-share"></i>Deposit</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('system.getDeposit') }}"><i class="fa fa-refresh"></i>Exchange BTC - $</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('system.getDeposit') }}"><i class="fa fa-refresh"></i>Exchange ETH - $</a>
                         </li>
                         <li>
                             <a href="{{ route('system.getWithdraw') }}"><i class="fa fa-reply"></i>Withdraw</a>

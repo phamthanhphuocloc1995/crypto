@@ -75,13 +75,23 @@ class AuthController extends Controller
     $captcha = $request->input('g-recaptcha-response');
     if (!$captcha) {
         //Chưa check captcha
-        return redirect()->route('system.getSignup')->with(['flash_type'=>'error', 'flash_message'=>'Please check google recaptcha before submit form']);
+        if ($request->input('ref')){
+            return redirect()->route('system.getSignup',['ref'=>$request->input('ref')])->with(['flash_type'=>'error', 'flash_message'=>'Please check google recaptcha before submit form']);
+        }
+        else {
+            return redirect()->route('system.getSignup')->with(['flash_type'=>'error', 'flash_message'=>'Please check google recaptcha before submit form']);
+        }
     } else {
         //Kiểm tra xác thực captcha
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6Leie4UUAAAAAO8sgdx1jzJX8lwkWEGbUqGYW_-1&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
         if (json_decode($response)->success == false) {
         //Lỗi xác thực
-        return redirect()->route('system.getSignup')->with(['flash_type'=>'error', 'flash_message'=>'Google recaptcha: Error Vertificate ']);
+            if ($request->input('ref')){
+                return redirect()->route('system.getSignup',['ref'=>$request->input('ref')])->with(['flash_type'=>'error', 'flash_message'=>'Google recaptcha: Error Vertificate ']);
+            }
+            else {
+                return redirect()->route('system.getSignup')->with(['flash_type'=>'error', 'flash_message'=>'Google recaptcha: Error Vertificate ']);
+            }
         }
 
         $this->validate($request, 
@@ -135,7 +145,12 @@ class AuthController extends Controller
             $msg->to($input['User_Email'])->subject('Activate Account');
         });
 
-        return redirect()->route('system.getSignup')->with(['flash_type'=>'success', 'flash_message'=>'Register Success ! Please check your email to Activate Account']);
+        if ($request->input('ref')){
+            return redirect()->route('system.getSignup',['ref'=>$request->input('ref')])->with(['flash_type'=>'success', 'flash_message'=>'Register Success ! Please check your email to Activate Account']);
+        }
+        else { 
+            return redirect()->route('system.getSignup')->with(['flash_type'=>'success', 'flash_message'=>'Register Success ! Please check your email to Activate Account']);
+        }
     }
 }
 

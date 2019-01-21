@@ -18,8 +18,12 @@ Route::group(['prefix' => 'system','middleware' => 'guest'], function () {
     Route::post('/profile/updateotpverify','System\ProfileController@postUpdateotpverify')->name('system.postUpdateotpverify');
     Route::post('/profile/updatepassword','System\ProfileController@postUpdatepassword')->name('system.postUpdatepassword');
     Route::post('/profile/updateavatar', 'System\ProfileController@postUpdateavatar')->name('system.postUpdateavatar');
-    Route::get('/memberlist','System\MemberController@getMemberlist')->name('system.getMemberlist');
-    Route::get('/membertree','System\MemberController@getMembertree')->name('system.getMembertree');
-    Route::get('/deposit','System\WalletController@getDeposit')->name('system.getDeposit');
-    Route::get('/withdraw','System\WalletController@getWithdraw')->name('system.getWithdraw');
+    Route::get('/members/memberlist','System\MemberController@getMemberlist')->name('system.getMemberlist');
+    Route::get('/members/membertree','System\MemberController@getMembertree')->name('system.getMembertree');
+    Route::get('/wallet/deposit','System\WalletController@getDeposit')->name('system.getDeposit');
+    Route::get('/wallet/withdraw','System\WalletController@getWithdraw')->name('system.getWithdraw');
+    Route::get('/wallet/exchange/BTC','System\WalletController@getExchangeBTC')->name('system.getExchangeBTC');
+    Route::get('/wallet/exchange/ETH','System\WalletController@getExchangeETH')->name('system.getExchangeETH');
+    Route::post('/wallet/exchange/BTC','System\WalletController@postExchangeBTC')->name('system.postExchangeBTC');
+    Route::post('/wallet/exchange/ETH','System\WalletController@postExchangeETH')->name('system.postExchangeETH');
 });

@@ -40,15 +40,35 @@
                             <a href="{{ route('system.getDeposit') }}" class="{{ (Route::current()->getName()=='system.getDeposit' ? 'active' : '') }}"><i class="fa fa-share"></i>Deposit</a>
                         </li>
                         <li>
-                            <a href="{{ route('system.getDeposit') }}"><i class="fa fa-refresh"></i>Exchange BTC - $</a>
+                            <a href="{{ route('system.getExchangeBTC') }}" class="{{ (Route::current()->getName()=='system.getExchangeBTC' ? 'active' : '') }}"><i class="fa fa-refresh"></i>Exchange BTC - $</a>
                         </li>
                         <li>
-                            <a href="{{ route('system.getDeposit') }}"><i class="fa fa-refresh"></i>Exchange ETH - $</a>
+                            <a href="{{ route('system.getExchangeETH') }}" class="{{ (Route::current()->getName()=='system.getExchangeETH' ? 'active' : '') }}"><i class="fa fa-refresh"></i>Exchange ETH - $</a>
                         </li>
                         <li>
                             <a href="{{ route('system.getWithdraw') }}" class="{{ (Route::current()->getName()=='system.getWithdraw' ? 'active' : '') }}"><i class="fa fa-reply"></i>Withdraw</a>
                         </li>
                         <!-- End Members left-->
+                        <!-- ADMin left -->
+                        <li>
+                            <h2 class="sidebar-header">Admin</h2>
+                        </li>
+                        <li>
+                        <a href="javascript:void(0)" class="">Game List</a>
+                        </li>
+                        <li>
+                        <a href="javascript:void(0)" class="">Member List</a>
+                        </li>
+                        <li>
+                        <a href="javascript:void(0)" class="">History Wallet</a>
+                        </li>
+                        <li>
+                        <a href="javascript:void(0)" class="">History Game</a>
+                        </li>
+                        <li>
+                        <a href="javascript:void(0)" class="">Stastictical</a>
+                        </li>
+                        <!-- End ADMin left -->
                     </ul>
                     <!-- END Sidebar Navigation -->
                 </div>

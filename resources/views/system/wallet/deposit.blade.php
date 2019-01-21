@@ -38,13 +38,13 @@ Deposit
                                     <div class="block-title text-center"><h4>BTC (BITCOIN)</h4></div>
                                         <h3 class="text-center">WALLET ADDRESS</h3>
                                         <div class="row text-center">
-                                            <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=AWciPUDuXnGASCPrapWPHekVWGHLRKPAPF&choe=UTF-8"/>
+                                            <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl={{ $btcAddress }}&choe=UTF-8"/>
                                         </div>
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-primary" onclick="myFunction()"><i class="fa fa-copy"></i> COPY</button>
+                                                <button type="button" class="btn btn-primary" onclick="myFunction1()"><i class="fa fa-copy"></i> COPY</button>
                                             </span>
-                                            <input type="text" id="linkref" name="example-input1-group2" class="form-control" value="AWciPUDuXnGASCPrapWPHekVWGHLRKPAPF">
+                                            <input type="text" id="linkbtcAddress" name="example-input1-group2" class="form-control" value="{{ $btcAddress }}">
                                         </div>
                                     <p></p>
                                 </div>
@@ -54,13 +54,13 @@ Deposit
                                     <div class="block-title text-center"><h4>ETH (ETHEREUM)</h4></div>
                                         <h3 class="text-center">WALLET ADDRESS</h3>
                                         <div class="row text-center">
-                                        <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=AWciPUDuXnGASCPrapWPHekVWGHLRKPAPF&choe=UTF-8"/>
+                                        <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl={{ $ethAddress }}&choe=UTF-8"/>
                                         </div>
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-primary" onclick="myFunction()"><i class="fa fa-copy"></i> COPY</button>
+                                                <button type="button" class="btn btn-primary" onclick="myFunction2()"><i class="fa fa-copy"></i> COPY</button>
                                             </span>
-                                            <input type="text" id="linkref" name="example-input1-group2" class="form-control" value="AWciPUDuXnGASCPrapWPHekVWGHLRKPAPF">
+                                            <input type="text" id="linkethAddress" name="example-input1-group2" class="form-control" value="{{ $ethAddress }}">
                                         </div>
                                     <p></p>
                                 </div>
@@ -73,6 +73,28 @@ Deposit
 @endsection
 
 @section('script')
+<script>
+function myFunction1() {
+  /* Get the text field */
+  var copyText1 = document.getElementById("linkbtcAddress");
+  /* Select the text field */
+  copyText1.select();
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+  /* Alert the copied text */
+  alert("Copied the text: " + copyText1.value);
+}
 
+function myFunction2() {
+  /* Get the text field */
+  var copyText1 = document.getElementById("linkethAddress");
+  /* Select the text field */
+  copyText1.select();
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+  /* Alert the copied text */
+  alert("Copied the text: " + copyText1.value);
+}
+</script>
 @endsection
 

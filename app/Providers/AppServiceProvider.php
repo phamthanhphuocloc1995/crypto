@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\User;
+use App\Price;
 
 use View;
 
@@ -17,6 +18,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::share('otp',false);
+        $PriceLuckyPoint = Price::getLuckyPrice();
+        $PriceBTC = Price::getBTCPrice();
+        $PriceETH = Price::getETHPrice();
+        View::share('PriceLuckyPoint',$PriceLuckyPoint);
+        View::share('PriceBTC',$PriceBTC);
+        View::share('PriceETH',$PriceETH);
     }
 
     /**

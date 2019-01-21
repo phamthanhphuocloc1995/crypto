@@ -19,4 +19,14 @@ class Price extends Model
         $result = DB::table('Price')->select('Price_Amount')->where('Price_Currency','Lucky Point')->first();
         return $result->Price_Amount;
     }
+
+    public static function getBTCPrice() {
+        $result = DB::table('Price')->select('Price_Amount')->where('Price_Currency','BitCoin')->first();
+        return $result->Price_Amount;
+    }
+
+    public static function getETHPrice() {
+        $result = DB::table('Price')->select('Price_Amount')->where('Price_Currency','Ethereum')->first();
+        return $result->Price_Amount;
+    }
 }

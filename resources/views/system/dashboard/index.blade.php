@@ -39,7 +39,7 @@ Dashboard
                                 <div class="block-title text-center"><h4>Lucky Point Price</h4></div>
                                 <h1 class="animation-pullDown">
                                 <a href="javascript:void(0)" style="text-decoration:none">
-                                <strong>{{ number_format(App\Price::getLuckyPrice(),1) }} $ = {{ number_format(1) }} Point</strong>
+                                <strong>{{ number_format($PriceLuckyPoint,1) }} $ = {{ number_format(1) }} Point</strong>
                                 </a>
                                 </h1>
                             </div>

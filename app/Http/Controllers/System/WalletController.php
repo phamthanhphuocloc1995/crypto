@@ -92,61 +92,84 @@ class WalletController extends Controller
 
     public function getExchangeBTC() {
         $currency = 'BTC';
-        return view('system.wallet.exchange',compact('currency'));
+        $listexchangeHistory = Money::listexchangeHistory(Session('user')->User_ID);
+        return view('system.wallet.exchange',compact('currency','listexchangeHistory'));
     }
 
     public function getExchangeETH() {
         $currency = 'ETH';
-        return view('system.wallet.exchange',compact('currency'));
+        $listexchangeHistory = Money::listexchangeHistory(Session('user')->User_ID);
+        return view('system.wallet.exchange',compact('currency','listexchangeHistory'));
     }
 
-    public function postExchangeBTC(Request $request) {
+    public function postExchangeBTC(Request $request,$base) {
         //Lấy giá BTC theo USD
         $PriceBTC = Price::getBTCPrice();
+        
+        if ($base == "BTC") {
 
-        //Tính ở client
-        $amountUSD = $request->amountUSD;
-        $needtoexchange_client = $request->needtoexchange_client;
+            //Tính ở client
+            $amountUSD = $request->amountUSD;
+            $needtoexchange_client = $request->needtoexchange_client;
 
-        if ($amountUSD == -1 or $needtoexchange_client == null) {
-            return redirect()->route('system.getExchangeBTC')->with(['flash_type'=>'error','flash_message'=>'Error please contact Administrator!']);
+            if ($amountUSD == -1 or $needtoexchange_client == null) {
+                return redirect()->route('system.getExchangeBTC')->with(['flash_type'=>'error','flash_message'=>'Error please contact Administrator!']);
+            }
+
+            //Tính ở server
+            $needtoexchange = number_format($amountUSD / $PriceBTC,5);
+
+            //Checksum
+            if ($needtoexchange_client==$needtoexchange) {
+                //Trừ BTC
+                $Exchange = new Money();
+                $Exchange->Money_User = Session('user')->User_ID;
+                $Exchange->Money_Amount = ($needtoexchange)*(-1);
+                $Exchange->Money_AmountFee = 0;
+                $Exchange->Money_Time = strtotime(date("Y-m-d H:i:s"));
+                $Exchange->Money_Comment = "Exchange to $ from BTC";
+                $Exchange->Money_Action = 3;
+                $Exchange->Money_Status = 1;
+                $Exchange->Money_Currency = 1;
+                $Exchange->Money_CurrencyCurrentPrice = Price::getBTCPrice();
+                $Exchange->Money_Confirm = 1;
+                $Exchange->Money_Demo = 0;
+                $Exchange->save();
+                //Cộng USD
+                $Exchange2 = new Money();
+                $Exchange2->Money_User = Session('user')->User_ID;
+                $Exchange2->Money_Amount = ($amountUSD);
+                $Exchange2->Money_AmountFee = 0;
+                $Exchange2->Money_Time = strtotime(date("Y-m-d H:i:s"));
+                $Exchange2->Money_Comment = "Receive $ from #:(".$Exchange->Money_ID.")";
+                $Exchange2->Money_Action = 3;
+                $Exchange2->Money_Status = 1;
+                $Exchange2->Money_Currency = 0;
+                $Exchange2->Money_CurrencyCurrentPrice = 1;
+                $Exchange2->Money_Confirm = 1;
+                $Exchange2->Money_Demo = 0;
+                $Exchange2->save();
+
+                return redirect()->route('system.getExchangeBTC')->with(['flash_type'=>'success','flash_message'=>'Exchange to $ from BTC Success!']);
+            }
         }
+        elseif ($base == "USD") {
 
-        //Tính ở server
-        $needtoexchange = number_format($amountUSD / $PriceBTC,5);
+            //Tính ở client
+            $amountUSD = $request->amountUSD;
+            $willreceivedafterexchange_client = $request->willreceivedafterexchange_client;
+            if ($amountUSD < 0 or $willreceivedafterexchange_client == null) {
+                return redirect()->route('system.getExchangeBTC')->with(['flash_type'=>'error','flash_message'=>'Error please contact Administrator!']);
+            }
 
-        //Checksum
-        if ($needtoexchange_client==$needtoexchange) {
-            //Trừ BTC
-            $Exchange = new Money();
-            $Exchange->Money_User = Session('user')->User_ID;
-            $Exchange->Money_Amount = ($needtoexchange)*(-1);
-            $Exchange->Money_AmountFee = 0;
-            $Exchange->Money_Time = strtotime(date("Y-m-d H:i:s"));
-            $Exchange->Money_Comment = "Exchange to USD from BTC";
-            $Exchange->Money_Action = 3;
-            $Exchange->Money_Status = 1;
-            $Exchange->Money_Currency = 1;
-            $Exchange->Money_CurrencyCurrentPrice = Price::getBTCPrice();
-            $Exchange->Money_Confirm = 1;
-            $Exchange->Money_Demo = 0;
-            $Exchange->save();
-            //Cộng USD
-            $Exchange2 = new Money();
-            $Exchange2->Money_User = Session('user')->User_ID;
-            $Exchange2->Money_Amount = ($amountUSD);
-            $Exchange2->Money_AmountFee = 0;
-            $Exchange2->Money_Time = strtotime(date("Y-m-d H:i:s"));
-            $Exchange2->Money_Comment = "Exchange to USD from BTC";
-            $Exchange2->Money_Action = 3;
-            $Exchange2->Money_Status = 1;
-            $Exchange2->Money_Currency = 0;
-            $Exchange2->Money_CurrencyCurrentPrice = 1;
-            $Exchange2->Money_Confirm = 1;
-            $Exchange2->Money_Demo = 0;
-            $Exchange2->save();
+            //Tính ở server
+            $willreceivedafterexchange = number_format($amountUSD/$PriceBTC,5);
 
-            return redirect()->route('system.getExchangeBTC')->with(['flash_type'=>'success','flash_message'=>'Exchange to $ from BTC Success!']);
+            //Checksum 
+            if ($willreceivedafterexchange_client == $willreceivedafterexchange){
+                dd('thành công');
+            }
+
         }
         
     }

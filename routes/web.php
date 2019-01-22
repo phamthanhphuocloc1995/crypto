@@ -24,6 +24,6 @@ Route::group(['prefix' => 'system','middleware' => 'guest'], function () {
     Route::get('/wallet/withdraw','System\WalletController@getWithdraw')->name('system.getWithdraw');
     Route::get('/wallet/exchange/BTC','System\WalletController@getExchangeBTC')->name('system.getExchangeBTC');
     Route::get('/wallet/exchange/ETH','System\WalletController@getExchangeETH')->name('system.getExchangeETH');
-    Route::post('/wallet/exchange/BTC','System\WalletController@postExchangeBTC')->name('system.postExchangeBTC');
+    Route::post('/wallet/exchange/BTC/{base}','System\WalletController@postExchangeBTC')->name('system.postExchangeBTC');
     Route::post('/wallet/exchange/ETH','System\WalletController@postExchangeETH')->name('system.postExchangeETH');
 });

@@ -38,7 +38,7 @@ Exchange
                                     <div class="block-title text-center"><h4>Exchange {{ $currency }} to $</h4></div>
                                         <h4><label>Your current balance: <a>{{ number_format(0,5) }} {{ $currency }}</a></label></h4>
                                         <h4 style="display:none" id="labelneedtoexchange"></h4>
-                                        <form action="{{ route('system.postExchangeBTC') }}" method="post">
+                                        <form action="{{ route('system.postExchangeBTC','BTC') }}" method="post">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="needtoexchange_client" id="inputneedtoexchange">
                                             <select class="form-control" id="selamountUSD" name="amountUSD" onchange="calcneedtoexchange()">
@@ -60,36 +60,43 @@ Exchange
                                 <div class="block">
                                     <div class="block-title text-center"><h4>Exchange $ to {{ $currency }}</h4></div>
                                         <h4><label>Your current balance: <a>{{ number_format(0) }} $</a></label></h4>
-                                        <input type="number" step="1" pattern="\d+" class="form-control" value="" placeholder="Enter the amount $ exchange to {{ $currency }}">
+                                        <h4 style="display:none" id="labelwillreceivedafterexchange"></h4>
+                                    <form action="{{ route('system.postExchangeBTC','USD') }}" method="post">
+                                    {{ csrf_field() }}
+                                        <input id="inputwillreceviedafterexchange" name="willreceivedafterexchange_client" type="hidden">
+                                        <input id="inputamountUSD" name="amountUSD" type="number" step="1" pattern="\d+" class="form-control" value="" placeholder="Enter the amount $ exchange to {{ $currency }}" onchange="calcwillreceivedafterexchange()">
                                         <br>
                                         <div class="text-center">
                                         <input type="submit" class="btn btn-primary" value="Exchange">
                                         </div>
                                         <br>
+                                    </form>
                                 </div>
                         </div>
                     </div>
                 <div class="row gutter30">
-                <h2 class="text-center"><a href="javascript:void(0)" style="text-decoration:none">Exchange BTC History</a></h2>
+                <h2 class="text-center"><a href="javascript:void(0)" style="text-decoration:none">Exchange History</a></h2>
                 <div class="table-responsive">
                             <table id="general-table" class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th class="text-center">Amount BTC</th>
-                                        <th class="text-center">Amount USD</th>
+                                        <th class="text-center">Amount Money</th>
+                                        <th class="text-center">Currency Money</th>
                                         <th class="text-center">DateTime</th>
                                         <th class="text-center">Comment</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($listexchangeHistory as $exchangeHistory)
                                     <tr>
-                                        <td class="text-center">1</td>
-                                        <td class="text-center"><a href="javascript:void(0)">{{ number_format(0,5) }}</a></td>
-                                        <td class="text-center"><a href="javascript:void(0)">{{ number_format(0) }}</a></td>
-                                        <td><a href="javascript:void(0)" class="label label-success">VIP</a></td>
-                                        <td><a href="javascript:void(0)" class="label label-success">Lifetime</a></td>
+                                        <td class="text-center"><a href="javascript:void(0)">{{ $exchangeHistory->Money_ID }}</a></td>
+                                        <td class="text-center">{{ ($exchangeHistory->Money_Currency==0) ? number_format($exchangeHistory->Money_Amount) : number_format($exchangeHistory->Money_Amount,5) }}</td>
+                                        <td class="text-center">{{ (($exchangeHistory->Money_Currency==0) ? '$' : ($exchangeHistory->Money_Currency==1 ? 'BTC' : 'ETH')) }}</td>
+                                        <td class="text-center">{{ date("Y-m-d H:i:s",$exchangeHistory->Money_Time) }}</td>
+                                        <td class="text-center">{{ $exchangeHistory->Money_Comment }}</td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -137,6 +144,22 @@ function calcneedtoexchange() {
     $('#labelneedtoexchange').html('<label>Need to exchange: <a>'+ needtoexchange +' {{ $currency }}</a></label>');
     $('#labelneedtoexchange').css('display','block');
     $('#inputneedtoexchange').val(needtoexchange);
+}
+
+function calcwillreceivedafterexchange() {
+    var amountUSD = document.getElementById('inputamountUSD').value;
+    if (amountUSD < 0) { return; }
+    @if ($currency == "BTC")
+    var willreceivedafterexchange = amountUSD / {{ $PriceBTC }};
+    @elseif ($currency == "ETH")
+    var willreceivedafterexchange = amountUSD / {{ $PriceETH }};
+    @else 
+    var willreceivedafterexchange = 0;
+    @endif
+    willreceivedafterexchange = willreceivedafterexchange.toFixed(5);
+    $('#labelwillreceivedafterexchange').html('<label>Will received after exchange: <a>'+ willreceivedafterexchange +' {{ $currency }}</a></label>');
+    $('#labelwillreceivedafterexchange').css('display','block');
+    $('#inputwillreceviedafterexchange').val(willreceivedafterexchange);
 }
 </script>
 @endsection
